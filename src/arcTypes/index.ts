@@ -2,31 +2,49 @@
  * Modify this list if you need more actions
  */
 export enum ActionId {
-  "embedded.commerce.payments.action.after",
-  "embedded.commerce.payments.action.before",
-  "embedded.commerce.payments.action.performPaymentInteraction",
+  "http.commerce.catalog.storefront.shipping.requestRates.before",
   "embedded.platform.applications.install",
 }
 
-import { Payment } from '@kibocommerce/rest-sdk/clients/commerce/models/Payment'
-import { PaymentAction } from '@kibocommerce/rest-sdk/clients/commerce/models/PaymentAction'
-import { PaymentInteraction } from '@kibocommerce/rest-sdk/clients/commerce/models/PaymentInteraction'
+import { RateRequest } from '@kibocommerce/rest-sdk/clients/ShippingStorefront/models/RateRequest'
+import { RatesResponse } from '@kibocommerce/rest-sdk/clients/ShippingStorefront/models/RatesResponse'
 
-export type PerformPaymentInteractionContext = {
-  get: {
-    payment: () => Payment,
-    paymentAction: () => PaymentAction,
-  },
-  exec: {
-    addPaymentInteraction: (interaction: PaymentInteraction) => null,
-    setPaymentAmountRequested: (amountRequested: number) => any,
-    setPaymentAmountCollected: (amountCollected: number) => any,
-    setPaymentAmountCredited: (amountCredited: number) => any,
-    isForOrder: () => boolean,
-    isForReturn: () => boolean,
-    isForCheckout: () => boolean,
-    setAuthorized: (isAuthorized: boolean) => any,
+/**
+ * The following is the structure of the Arc configuration. 
+ * rateName is the name of the rate as it will appear in Admin and Storefront
+ * rateCode is how the rate will appear on orders
+ * shippingGroups is a list of possible prices of the items. 
+ *  It will try to match based on product code or product type, and assign the result 
+ *  if there is a match, otherwise it will continue on.
+ */
+export interface CustomRatesConfig {
+  carrierId: string;
+  rateName: string;
+  rateCode: string;
+  shippingGroups: ShippingGroupConfig[];
+}
+
+/**
+ * The structure of the shipping group.
+ * productCodes is the list of product codes to match on 
+ * shippingPerItem is the amount that the line item will cost
+ * productType is the product type to match on
+ */
+export interface ShippingGroupConfig {
+  productCodes?: string[];
+  shippingPerItem: number;
+  productTypes?: string[];
+}
+
+
+export type RatesContext = {
+  response: {
+    body: RatesResponse
   }
+  request: {
+    body: RateRequest
+  },
+  configuration: CustomRatesConfig
 }
 
 export interface ArcFunction {
