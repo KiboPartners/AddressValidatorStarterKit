@@ -1,6 +1,6 @@
 # Custom Rates Starter Kit
 
-This is a starter kit for developing custom rates integrations in Kibo.
+This is a starter kit for developing custom rates integrations in Kibo. For example, if you have business logic about what rates the user can see when they get to the Shipping Rates section in checkout, you can drop down to API Extensions. You could also call out to another service which can generate the rates for you.
 
 
 ## Getting Started
@@ -24,7 +24,7 @@ The starter kit contains a simple application that assigns a flat amount per lin
       "productTypes": [
         "Fulfilment"
       ],
-      "shippingPerItem": 90
+      "shippingPerItem": 30
     },
     {
       "productTypes": [
