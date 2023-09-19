@@ -25,7 +25,7 @@ const requestRatesBefore = createArcFunction(
             return {
               itemId: item.itemId,
               quantity: item.quantity,
-              amount: group.shippingPerItem
+              amount: group.shippingPerItem * ( item.quantity || 1)
             }
           }
 
@@ -33,7 +33,7 @@ const requestRatesBefore = createArcFunction(
             return {
               itemId: item.itemId,
               quantity: item.quantity,
-              amount: group.shippingPerItem
+              amount: group.shippingPerItem * ( item.quantity || 1)
             }
           }
         }
