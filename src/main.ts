@@ -7,9 +7,7 @@ const requestRatesBefore = createArcFunction(
   ActionId["http.commerce.catalog.storefront.shipping.requestRates.before"],
   function (context: RatesContext, callback: (errorMessage?: string) => void) {
     console.log("http.commerce.catalog.storefront.shipping.requestRates.before")
-    console.log("Old request: ")
     const config = context.configuration
-    require('needle').post('https://548c-47-187-200-35.ngrok.io', { message: {'reqest': config}}, { json: true });
 
     if (config.rateCode == null || config.rateName == null || config.carrierId == null) {
       // Something in the config isn't correct, pass through to the default rates
