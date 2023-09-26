@@ -6,6 +6,11 @@
       "actionId": "http.commerce.catalog.storefront.shipping.requestRates.before"
     },
     {
+      "id": "http.commerce.catalog.storefront.shipping.requestRates.after",
+      "virtualPath": "./dist/manifest.all.js",
+      "actionId": "http.commerce.catalog.storefront.shipping.requestRates.after"
+    },
+    {
       "id": "embedded.platform.applications.install",
       "virtualPath": "./dist/manifest.all.js",
       "actionId": "embedded.platform.applications.install"

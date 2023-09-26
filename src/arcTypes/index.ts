@@ -3,6 +3,7 @@
  */
 export enum ActionId {
   "http.commerce.catalog.storefront.shipping.requestRates.before",
+  "http.commerce.catalog.storefront.shipping.requestRates.after",
   "embedded.platform.applications.install",
 }
 

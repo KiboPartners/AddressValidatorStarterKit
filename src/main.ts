@@ -23,7 +23,7 @@ const requestRatesBefore = createArcFunction(
             return {
               itemId: item.itemId,
               quantity: item.quantity,
-              amount: group.shippingPerItem * ( item.quantity || 1)
+              amount: group.shippingPerItem * (item.quantity || 1)
             }
           }
 
@@ -31,7 +31,7 @@ const requestRatesBefore = createArcFunction(
             return {
               itemId: item.itemId,
               quantity: item.quantity,
-              amount: group.shippingPerItem * ( item.quantity || 1)
+              amount: group.shippingPerItem * (item.quantity || 1)
             }
           }
         }
@@ -79,10 +79,16 @@ const requestRatesBefore = createArcFunction(
   }
 );
 
+const requestRatesAfter = createArcFunction(
+  ActionId["http.commerce.catalog.storefront.shipping.requestRates.after"],
+  function (context: RatesContext, callback: (errorMessage?: string) => void) {
+    console.log("http.commerce.catalog.storefront.shipping.requestRates.after")
+})
+
 const platformApplicationsInstall = createArcFunction(
   ActionId["embedded.platform.applications.install"],
   function (context: any, callback: (errorMessage?: string) => void) {
-    console.log("embedded.platform.applications.install for order routing Arc");
+    console.log("platformApplicationsInstall");
     platformApplicationsInstallImplementation(context, callback).then(() => {
       callback()
     })
@@ -91,5 +97,6 @@ const platformApplicationsInstall = createArcFunction(
 
 export default {
   "http.commerce.catalog.storefront.shipping.requestRates.before": requestRatesBefore,
+  "http.commerce.catalog.storefront.shipping.requestRates.after": requestRatesAfter,
   "embedded.platform.applications.install": platformApplicationsInstall,
 }
