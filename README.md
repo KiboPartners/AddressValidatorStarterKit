@@ -18,6 +18,8 @@ First, go to `src/main.ts` and modify from there. You can customize the address 
 
 First install the dependencies with: `npm install`
 
+Then copy `mozu.config.json.example` into `mozu.config.json` and fill in the blank variables (Email, Dev Account ID, Application name).
+
 Then build with `grunt`. It will run through eslint and Typescript checks, compile the code into the assets folder, and then upload to your application using mozusync as usual.
 
 Then go to your application in Dev Center, and click Install on your tenant. This will automatically add the API Extensions in the Action Management JSON Editor.
