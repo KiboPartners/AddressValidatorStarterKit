@@ -2,13 +2,17 @@
 
 This is a starter kit for developing address validation integrations in Kibo. For example, if you need to validate and standardize shipping addresses during the checkout process, you can use API Extensions to implement custom address validation logic or integrate with external address validation services.
 
-This starter kit includes a basic example of address validation for Pennsylvania (PA) addresses as a simple example. The validation logic checks if the logic is state is PA and is considered a valid address, and otherwise fails.
+This starter kit includes a basic example of address validation for Pennsylvania (PA) addresses. The validation logic only considers PA addresses as valid, and otherwise fails all other addresses as invalid.
 
 ## Getting Started
 
 The starter kit contains a simple application that demonstrates how to validate and standardize addresses using API Extensions. It includes basic validation rules and can be extended to integrate with external address validation services.
 
-You will need to first upload the code to a new application, modify the code to your needs, install, and then test.
+You will need to modify the code to your needs, upload the code to a new application, install the application, and then test.
+
+## Development
+
+First, go to `src/main.ts` and modify from there. You can customize the address validation logic or integrate with external services as needed. The function definition is asychronous, so you can use await to wait for the result.
 
 ## Install
 
@@ -23,7 +27,3 @@ Then go to your application in Dev Center, and click Install on your tenant. Thi
 Then go to your tenant, click "Settings" and then "Applications". Click the application you just installed, and then toggle the "Enable Application" switch.
 
 Then, go to "Settings", then "General Settings", then to the "Storefront" tab, and enable Address Valdation, and optionally to allow invalid addresses.
-
-## Development
-
-First, go to `src/main.ts` and modify from there. You can customize the address validation logic or integrate with external services as needed.
