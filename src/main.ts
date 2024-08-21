@@ -1,89 +1,37 @@
-import { ShippingItemRate } from "@kibocommerce/rest-sdk/clients/ShippingStorefront/models/ShippingItemRate";
+
 import { ActionId, RatesContext, createArcFunction } from "./arcTypes/index";
-import { exampleConfig, platformApplicationsInstallImplementation } from "./platformInstall";
+import { platformApplicationsInstallImplementation } from "./platformInstall";
 
 
-const requestRatesBefore = createArcFunction(
-  ActionId["http.commerce.catalog.storefront.shipping.requestRates.before"],
+const validateAddressBefore = createArcFunction(
+  ActionId["http.commerce.customer.address.validation.before"],
   function (context: RatesContext, callback: (errorMessage?: string) => void) {
-    console.log("http.commerce.catalog.storefront.shipping.requestRates.before")
-    const config = context.configuration
-
-    if (config.rateCode == null || config.rateName == null || config.carrierId == null) {
-      // Something in the config isn't correct, pass through to the default rates
-      console.error("Configuration missing values, custom rates cannot run")
-      callback()
-      return
-    }
-
-    const itemRates: Array<ShippingItemRate> = (context.request.body.items || []).map(item => {
-      for (const group of config.shippingGroups) {
-        for (const productSummaries of item.productSummaries || []) {
-          if (productSummaries.productCode && group.productCodes?.includes(productSummaries.productCode)) {
-            return {
-              itemId: item.itemId,
-              quantity: item.quantity,
-              amount: group.shippingPerItem * (item.quantity || 1)
-            }
-          }
-
-          if (productSummaries.productType && group.productTypes?.includes(productSummaries.productType)) {
-            return {
-              itemId: item.itemId,
-              quantity: item.quantity,
-              amount: group.shippingPerItem * (item.quantity || 1)
-            }
-          }
-        }
-      }
-
-      // Fallthrough, if in none of the groups, free shipping
-      return {
-        itemId: item.itemId,
-        quantity: item.quantity,
-        amount: 0
-      }
-    })
-
-    // Calculate the total from the sum of the line items
-    let total = 0;
-    for (const rate of itemRates) {
-      total += rate.amount || 0
-    }
-
-
-    // Return the rates response
-    context.response.body = {
-      resolvedShippingZoneCode: "",
-      shippingZoneCodes: [],
-      rates: [
-        {
-          carrierId: config.carrierId,
-          shippingRates: [
-            {
-              code: config.rateCode,
-              content: {
-                localeCode: "en-US",
-                name: config.rateName
-              },
-              amount: total,
-              shippingItemRates: itemRates,
-              customAttributes: [],
-              messages: []
-            }
-          ]
-        }]
-    }
-
     callback();
   }
 );
 
-const requestRatesAfter = createArcFunction(
-  ActionId["http.commerce.catalog.storefront.shipping.requestRates.after"],
+const validateRequestAfter = createArcFunction(
+  ActionId["http.commerce.customer.address.validation.after"],
   function (context: RatesContext, callback: (errorMessage?: string) => void) {
-    console.log("http.commerce.catalog.storefront.shipping.requestRates.after")
-})
+
+    // If the address's state or province is "PA", the address is considered valid and the response status is set to 200.
+    // Otherwise, the address is considered invalid and the response status is set to 400.
+
+    const shouldPassValidation = context.request.body.address?.stateOrProvince == "PA"
+
+    context.response.body = {
+      addressCandidates: [
+        {
+          ...context.request.body.address,
+          isValidated: shouldPassValidation,
+        }
+      ]
+    }
+
+    context.response.status = shouldPassValidation ? 200 : 400
+
+    callback()
+  })
 
 const platformApplicationsInstall = createArcFunction(
   ActionId["embedded.platform.applications.install"],
@@ -96,7 +44,7 @@ const platformApplicationsInstall = createArcFunction(
 );
 
 export default {
-  "http.commerce.catalog.storefront.shipping.requestRates.before": requestRatesBefore,
-  "http.commerce.catalog.storefront.shipping.requestRates.after": requestRatesAfter,
+  "http.commerce.customer.address.validation.before": validateRequestAfter,
+  "http.commerce.customer.address.validation.after": validateRequestAfter,
   "embedded.platform.applications.install": platformApplicationsInstall,
 }

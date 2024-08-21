@@ -1,14 +1,14 @@
 {
   "exports": [
     {
-      "id": "http.commerce.catalog.storefront.shipping.requestRates.before",
+      "id": "http.commerce.customer.address.validation.before",
       "virtualPath": "./dist/manifest.all.js",
-      "actionId": "http.commerce.catalog.storefront.shipping.requestRates.before"
+      "actionId": "http.commerce.customer.address.validation.after"
     },
     {
-      "id": "http.commerce.catalog.storefront.shipping.requestRates.after",
+      "id": "http.commerce.customer.address.validation.after",
       "virtualPath": "./dist/manifest.all.js",
-      "actionId": "http.commerce.catalog.storefront.shipping.requestRates.after"
+      "actionId": "http.commerce.customer.address.validation.after"
     },
     {
       "id": "embedded.platform.applications.install",

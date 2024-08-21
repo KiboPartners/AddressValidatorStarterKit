@@ -1,40 +1,13 @@
-# Custom Rates Starter Kit
+# Address Validation Starter Kit
 
-This is a starter kit for developing custom rates integrations in Kibo. For example, if you have business logic about what rates the user can see when they get to the Shipping Rates section in checkout, you can drop down to API Extensions. You could also call out to another service which can generate the rates for you.
+This is a starter kit for developing address validation integrations in Kibo. For example, if you need to validate and standardize shipping addresses during the checkout process, you can use API Extensions to implement custom address validation logic or integrate with external address validation services.
 
+This starter kit includes a basic example of address validation for Pennsylvania (PA) addresses as a simple example. The validation logic checks if the logic is state is PA and is considered a valid address, and otherwise fails.
 
 ## Getting Started
 
-The starter kit contains a simple application that assigns a flat amount per line item based on certain predicates. The first group in shippingGroup that matches the predicates gets assigned the shippingPerItem amount.
+The starter kit contains a simple application that demonstrates how to validate and standardize addresses using API Extensions. It includes basic validation rules and can be extended to integrate with external address validation services.
 
-```
-{
-  "carrierId": "Example",
-  "rateName": "Flat Rate",
-  "rateCode": "default",
-  "shippingGroups": [
-    {
-      "productCodes": [
-        "1001",
-        "1002"
-      ],
-      "shippingPerItem": 17
-    },
-    {
-      "productTypes": [
-        "Fulfilment"
-      ],
-      "shippingPerItem": 30
-    },
-    {
-      "productTypes": [
-        "HardwareFulfillment"
-      ],
-      "shippingPerItem": 90
-    }
-  ]
-}
-```
 You will need to first upload the code to a new application, modify the code to your needs, install, and then test.
 
 ## Install
@@ -43,8 +16,14 @@ First install the dependencies with: `npm install`
 
 Then build with `grunt`. It will run through eslint and Typescript checks, compile the code into the assets folder, and then upload to your application using mozusync as usual.
 
-Then go to your application in Dev Center, and click Install on your tenant. This will automaticaly add the API Extensions in the Action Management JSON Editor.
+Then go to your application in Dev Center, and click Install on your tenant. This will automatically add the API Extensions in the Action Management JSON Editor.
+
+## Tenant Configuration
+
+Then go to your tenant, click "Settings" and then "Applications". Click the application you just installed, and then toggle the "Enable Application" switch.
+
+Then, go to "Settings", then "General Settings", then to the "Storefront" tab, and enable Address Valdation, and optionally to allow invalid addresses.
 
 ## Development
 
-First, go to `src/main.ts` and modify from there.
+First, go to `src/main.ts` and modify from there. You can customize the address validation logic or integrate with external services as needed.

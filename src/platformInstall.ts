@@ -1,4 +1,4 @@
-import { ActionId, CustomRatesConfig, ShippingGroupConfig } from "./arcTypes/index";
+import { ActionId } from "./arcTypes/index";
 
 const Client = require('mozu-node-sdk/client')
 
@@ -37,28 +37,6 @@ const myClientFactory = Client.sub({
   context: any,
 };
 
-export const exampleConfig: CustomRatesConfig = {
-  carrierId: "Example",
-  rateName: "Flat Rate",
-  rateCode: "default",
-  shippingGroups: [
-    {
-      productCodes: [
-        "1001", "1002"
-      ],
-      shippingPerItem: 17.0
-    },
-    {
-      productTypes: ["Fulfilment"],
-      shippingPerItem: 90.0
-    },
-    {
-      productTypes: ["HardwareFulfillment"],
-      shippingPerItem: 90.0
-    }
-  ]
-}
-
 /**
  * The main implementation of the install function 
  * 
@@ -72,21 +50,20 @@ export const platformApplicationsInstallImplementation = async (context: any, ca
   const arcConfig = await myClient.getArcConfig()
 
   try {
-    const RATES_BEFORE_ACTION = ActionId[ActionId["http.commerce.catalog.storefront.shipping.requestRates.before"]]
+    const ADDRESS_VALIDATION_AFTER_ACTION = ActionId[ActionId["http.commerce.customer.address.validation.after"]]
     const ratesAfterContext: any = {
       customFunctions: [
         {
           applicationKey: context.apiContext.appKey,
-          functionId: RATES_BEFORE_ACTION,
+          functionId: ADDRESS_VALIDATION_AFTER_ACTION,
           enabled: true,
-          configuration: exampleConfig
         }
       ]
     }
-    const paymentAfterAction = arcConfig.actions?.find(a => a.actionId == RATES_BEFORE_ACTION)
+    const paymentAfterAction = arcConfig.actions?.find(a => a.actionId == ADDRESS_VALIDATION_AFTER_ACTION)
     if (!paymentAfterAction) {
       arcConfig.actions?.push({
-        actionId: RATES_BEFORE_ACTION,
+        actionId: ADDRESS_VALIDATION_AFTER_ACTION,
         contexts: [
           ratesAfterContext
         ],

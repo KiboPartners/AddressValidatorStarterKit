@@ -1,3 +1,3 @@
-defaultExport = require('./src/main').default
+defaultExport = require('./main').default
 
 module.exports = defaultExport
