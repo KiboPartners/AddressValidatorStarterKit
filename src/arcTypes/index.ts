@@ -9,7 +9,7 @@ export enum ActionId {
 
 import { AddressValidationRequest, AddressValidationResponse } from '@kibocommerce/rest-sdk/clients/Customer'
 
-export type RatesContext = {
+export type RatesContext = BaseContext & {
   response: {
     body: AddressValidationResponse,
     status: number
@@ -19,6 +19,18 @@ export type RatesContext = {
   },
   configuration: AddressValidationResponse
 }
+
+export type BaseContext = {
+  response: {
+    body: any;
+    status: number;
+  };
+  request: {
+    body: any;
+  };
+  configuration: any;
+  getSecureAppData: <T>(key: string) => T | undefined;
+};
 
 export interface ArcFunction {
   actionName: string;
